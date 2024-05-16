@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notes/models/note.dart';
 import 'package:notes/services/note_service.dart';
 import 'package:notes/widgets/note_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NoteListScreen extends StatefulWidget {
   const NoteListScreen({super.key});
@@ -84,14 +85,38 @@ class NoteList extends StatelessWidget {
                         },
                         title: Text(document.title),
                         subtitle: Text(document.description),
-                        trailing: InkWell(
-                          onTap: () {
-                            showAlertDialog(context, document);
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Icon(Icons.delete),
-                          ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            document.lat != null && document.lng != null
+                                ? InkWell(
+                                    onTap: () {
+                                      _openMaps(document.lat, document.lng);
+                                    },
+                                    child: const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 10),
+                                      child: Icon(Icons.map),
+                                    ),
+                                  )
+                                : const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    child: Icon(
+                                      Icons.map,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                            const SizedBox(width: 10),
+                            InkWell(
+                              onTap: () {
+                                showAlertDialog(context, document);
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Icon(Icons.delete),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -102,6 +127,14 @@ class NoteList extends StatelessWidget {
         }
       },
     );
+  }
+
+  Future<void> _openMaps(String? latitude, String? longitude) async {
+    Uri uri = Uri.parse(
+        'https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}');
+    if (await launchUrl(uri)) {
+      throw 'Could not launch $uri';
+    }
   }
 
   //konfirmasi hapus

@@ -92,13 +92,17 @@ class _NoteDialogState extends State<NoteDialog> {
           Text(
             _position?.latitude != null
                 ? 'Lat :  ${_position!.latitude.toString()}'
-                : '',
+                : widget.note?.lat != null
+                    ? 'Lat : ${widget.note?.lat}'
+                    : '',
             textAlign: TextAlign.start,
           ),
           Text(
             _position?.latitude != null
-                ? 'Lng :  ${_position!.longitude.toString()}'
-                : '',
+                ? 'Lng : ${_position!.longitude.toString()}'
+                : widget.note?.lng != null
+                    ? 'Lng : ${widget.note?.lng}'
+                    : '',
             textAlign: TextAlign.start,
           ),
         ],
@@ -126,6 +130,8 @@ class _NoteDialogState extends State<NoteDialog> {
               title: _titleController.text,
               description: _descriptionController.text,
               imageUrl: imageUrl,
+              lat: _position!.latitude.toString(),
+              lng: _position!.longitude.toString(),
               createdAt: widget.note?.createdAt,
             );
 
