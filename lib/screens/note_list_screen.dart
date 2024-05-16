@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes/models/note.dart';
+import 'package:notes/screens/map_screen.dart';
 import 'package:notes/services/note_service.dart';
 import 'package:notes/widgets/note_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -91,7 +92,8 @@ class NoteList extends StatelessWidget {
                             document.lat != null && document.lng != null
                                 ? InkWell(
                                     onTap: () {
-                                      _openMaps(document.lat, document.lng);
+                                      _openMaps(
+                                          context, document.lat, document.lng);
                                     },
                                     child: const Padding(
                                       padding:
@@ -129,12 +131,17 @@ class NoteList extends StatelessWidget {
     );
   }
 
-  Future<void> _openMaps(String? latitude, String? longitude) async {
-    Uri uri = Uri.parse(
+  Future<void> _openMaps(
+      BuildContext context, String? latitude, String? longitude) async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const MapScreen()),
+    );
+    /*Uri uri = Uri.parse(
         'https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}');
     if (!await launchUrl(uri)) {
       throw Exception('Could not launch $uri');
-    }
+    }*/
   }
 
   //konfirmasi hapus
