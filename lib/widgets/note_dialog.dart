@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:notes/models/note.dart';
 import 'package:notes/services/note_service.dart';
@@ -16,6 +17,7 @@ class _NoteDialogState extends State<NoteDialog> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   XFile? _imageFile;
+  Position? _position;
 
   @override
   void initState() {
@@ -35,6 +37,10 @@ class _NoteDialogState extends State<NoteDialog> {
         _imageFile = pickedFile;
       });
     }
+  }
+
+  Future<void> _getLocation() async {
+    //final location = await 
   }
 
   @override
@@ -81,7 +87,11 @@ class _NoteDialogState extends State<NoteDialog> {
           TextButton(
             onPressed: _pickImage,
             child: const Text("Pick Image"),
-          )
+          ),
+          TextButton(
+            onPressed: _getLocation,
+            child: const Text("Get Location"),
+          ),
         ],
       ),
       actions: [
