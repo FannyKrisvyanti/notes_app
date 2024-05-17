@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:notes/models/note.dart';
+import 'package:notes/services/location_service.dart';
 import 'package:notes/services/note_service.dart';
 
 class NoteDialog extends StatefulWidget {
@@ -40,7 +41,10 @@ class _NoteDialogState extends State<NoteDialog> {
   }
 
   Future<void> _getLocation() async {
-    //final location = await 
+    final location = await LocationService().getCurrentLocation();
+    setState(() {
+      _position = location;
+    });
   }
 
   @override
@@ -92,6 +96,12 @@ class _NoteDialogState extends State<NoteDialog> {
             onPressed: _getLocation,
             child: const Text("Get Location"),
           ),
+          Text(
+            _position?.latitude != null && _position?.longitude != null
+                ? 'Current Position : ${_position!.latitude.toString()}, ${_position!.longitude.toString()}'
+                : '',
+            textAlign: TextAlign.start,
+          )
         ],
       ),
       actions: [
