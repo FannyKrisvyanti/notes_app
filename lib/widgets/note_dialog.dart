@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
@@ -75,8 +78,15 @@ class _NoteDialogState extends State<NoteDialog> {
           ),
           Expanded(
             child: _imageFile != null
-                ? Image.network(
+                ? 
+                kIsWeb ?
+                Image.network(
                     _imageFile!.path,
+                    fit: BoxFit.cover,
+                  )
+                  :
+                  Image.file(
+                    File(_imageFile!.path),
                     fit: BoxFit.cover,
                   )
                 : (widget.note?.imageUrl != null &&

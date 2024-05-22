@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:notes/models/note.dart';
 import 'package:notes/screens/map_screen.dart';
